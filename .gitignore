@@ -1,0 +1,23 @@
+# Virtual environments
+.venv/
+venv/
+
+# Dataset folders
+dataset/
+data/
+model/
+
+# Image datasets
+web/static/images/
+
+# AI model files
+*.keras
+*.h5
+*.npy
+
+# Python cache
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/

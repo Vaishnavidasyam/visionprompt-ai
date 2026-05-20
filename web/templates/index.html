@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VisionPromptAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg1: #020617;
+        --bg2: #0f172a;
+        --card: rgba(15, 23, 42, 0.82);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --accent2: #22c55e;
+        --danger: #f87171;
+        --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, sans-serif;
+        min-height: 100vh;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at top left,
+            rgba(56, 189, 248, 0.12),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgba(34, 197, 94, 0.1),
+            transparent 24%
+          ),
+          linear-gradient(135deg, var(--bg1), var(--bg2));
+      }
+
+      .wrap {
+        max-width: 950px;
+        margin: 0 auto;
+        padding: 36px 18px 50px;
+      }
+
+      .hero {
+        text-align: center;
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.1);
+        color: #bae6fd;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 14px;
+        border: 1px solid rgba(56, 189, 248, 0.14);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(30px, 5vw, 46px);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+      }
+
+      .subtext {
+        margin: 0 auto;
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+        padding: 22px;
+      }
+
+      .panel {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #dbeafe;
+      }
+
+      .input-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        min-width: 240px;
+        padding: 15px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        background: rgba(2, 6, 23, 0.75);
+        color: white;
+        outline: none;
+        font-size: 15px;
+        transition: 0.2s ease;
+      }
+
+      input[type="text"]::placeholder {
+        color: #94a3b8;
+      }
+
+      input[type="text"]:focus {
+        border-color: rgba(56, 189, 248, 0.95);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+      }
+
+      button {
+        border: none;
+        cursor: pointer;
+        border-radius: 14px;
+        padding: 14px 18px;
+        font-weight: 700;
+        font-size: 14px;
+        transition:
+          transform 0.15s ease,
+          opacity 0.2s ease,
+          background 0.2s ease;
+        white-space: nowrap;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+      }
+
+      .primary {
+        background: linear-gradient(135deg, var(--accent), #0284c7);
+        color: white;
+        box-shadow: 0 12px 28px rgba(2, 132, 199, 0.24);
+      }
+
+      .secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .chip {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.16);
+        color: #bae6fd;
+        font-size: 13px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .chip:hover {
+        background: rgba(56, 189, 248, 0.18);
+      }
+
+      .status {
+        min-height: 22px;
+        margin-top: 12px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .status.error {
+        color: var(--danger);
+      }
+
+      .status.ok {
+        color: #86efac;
+      }
+
+      .loading {
+        display: none;
+        margin-top: 12px;
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(56, 189, 248, 0.25);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        vertical-align: -2px;
+        margin-right: 8px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .result {
+        margin-top: 24px;
+        display: none;
+        overflow: hidden;
+        padding: 18px;
+      }
+
+      .result img {
+        width: 100%;
+        max-height: 480px;
+        object-fit: cover;
+        display: block;
+        border-radius: 18px;
+        background: #0b1220;
+        margin-bottom: 16px;
+      }
+
+      .result-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        background: rgba(34, 197, 94, 0.12);
+        color: #bbf7d0;
+        border: 1px solid rgba(34, 197, 94, 0.16);
+      }
+
+      .pill.blue {
+        background: rgba(56, 189, 248, 0.12);
+        color: #dbeafe;
+        border-color: rgba(56, 189, 248, 0.16);
+      }
+
+      .kv {
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .kv .key {
+        display: block;
+        font-size: 12px;
+        color: #93c5fd;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .kv .val {
+        font-size: 15px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 640px) {
+        .wrap {
+          padding: 22px 14px 36px;
+        }
+
+        .card {
+          padding: 18px;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <div class="eyebrow">VisionPromptAI</div>
+        <h1>Type any prompt and see a relevant image.</h1>
+        <p class="subtext">
+          Enter a prompt like <b>rose flower</b>, <b>pug dog</b>,
+          <b>red car</b>, or <b>animal photo</b>. The app will show a matching
+          image in its original colors.
+        </p>
+      </header>
+
+      <section class="card panel">
+        <form id="promptForm">
+          <label for="prompt">Enter your prompt</label>
+          <div class="input-row">
+            <input
+              type="text"
+              id="prompt"
+              placeholder="Try: cat, dog, flower, airplane, bird, car..."
+              autocomplete="off"
+            />
+            <button type="submit" class="primary" id="submitBtn">
+              Classify
+            </button>
+            <button type="button" class="secondary" id="clearBtn">Clear</button>
+          </div>
+
+          <div class="chips" id="chips">
+            <div class="chip">cat</div>
+            <div class="chip">dog</div>
+            <div class="chip">flower</div>
+            <div class="chip">airplane</div>
+            <div class="chip">bird</div>
+            <div class="chip">car</div>
+            <div class="chip">animal photo</div>
+          </div>
+        </form>
+
+        <div class="loading" id="loading">
+          <span class="spinner"></span>Loading image...
+        </div>
+        <div class="status" id="status"></div>
+
+        <div class="card result" id="output">
+          <img id="resultImage" src="" alt="Result image" />
+          <div class="result-grid">
+            <div class="pill blue" id="resultPrompt">Prompt</div>
+            <div class="pill" id="resultClass">Predicted class</div>
+            <div class="kv">
+              <span class="key">Confidence</span>
+              <div class="val" id="resultConfidence">-</div>
+            </div>
+            <div class="kv">
+              <span class="key">Feedback</span>
+              <div class="val" id="resultFeedback">-</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const form = document.getElementById("promptForm");
+      const promptEl = document.getElementById("prompt");
+      const submitBtn = document.getElementById("submitBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const loading = document.getElementById("loading");
+      const status = document.getElementById("status");
+      const output = document.getElementById("output");
+      const resultImage = document.getElementById("resultImage");
+      const resultPrompt = document.getElementById("resultPrompt");
+      const resultClass = document.getElementById("resultClass");
+      const resultConfidence = document.getElementById("resultConfidence");
+      const resultFeedback = document.getElementById("resultFeedback");
+      const chips = document.querySelectorAll(".chip");
+
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          promptEl.value = chip.textContent.trim();
+          promptEl.focus();
+        });
+      });
+
+      clearBtn.addEventListener("click", () => {
+        promptEl.value = "";
+        status.textContent = "";
+        status.className = "status";
+        output.style.display = "none";
+        promptEl.focus();
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const prompt = promptEl.value.trim();
+
+        if (!prompt) {
+          status.textContent = "Please enter a prompt.";
+          status.className = "status error";
+          return;
+        }
+
+        status.textContent = "";
+        status.className = "status";
+        output.style.display = "none";
+        loading.style.display = "block";
+        submitBtn.disabled = true;
+
+        try {
+          const resp = await fetch("/classify", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ prompt }),
+          });
+
+          const data = await resp.json();
+
+          if (!resp.ok || data.error) {
+            throw new Error(data.error || "Something went wrong.");
+          }
+
+          resultImage.src = data.image_url;
+          resultPrompt.textContent = `Prompt: ${prompt}`;
+          resultClass.textContent = `Class: ${data.class}`;
+          resultConfidence.textContent = `${(data.confidence * 100).toFixed(2)}%`;
+          resultFeedback.textContent =
+            data.feedback || "Image loaded successfully.";
+
+          output.style.display = "block";
+          status.textContent = "Done.";
+          status.className = "status ok";
+        } catch (err) {
+          status.textContent = "Error: " + err.message;
+          status.className = "status error";
+        } finally {
+          loading.style.display = "none";
+          submitBtn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
