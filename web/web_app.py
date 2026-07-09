@@ -12,7 +12,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(ROOT_DIR, "model", "classifier.h5")
 ENC_PATH = os.path.join(ROOT_DIR, "model", "label_encoder.pkl")
 DATA_DIR = os.path.join(ROOT_DIR, "data")
-IMG_SIZE = (224, 224)
+IMG_SIZE = (32, 32)
 STATIC_IMG_DIR = os.path.join(ROOT_DIR, "web", "static", "images")
 os.makedirs(STATIC_IMG_DIR, exist_ok=True)
 
