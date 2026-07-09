@@ -26,7 +26,8 @@ for class_id, class_name in CIFAR_CLASSES.items():
     idxs = np.where(y_all == class_id)[0]
     for i, idx in enumerate(idxs[:15]):
         img_bgr = cv2.cvtColor(x_all[idx], cv2.COLOR_RGB2BGR)
-        cv2.imwrite(os.path.join(folder, f"{class_name}_{i}.jpg"), img_bgr)
+        img_big = cv2.resize(img_bgr, (224, 224), interpolation=cv2.INTER_CUBIC)
+        cv2.imwrite(os.path.join(folder, f"{class_name}_{i}.jpg"), img_big)
 
 animals_folder = os.path.join(DATA_DIR, 'animals')
 os.makedirs(animals_folder, exist_ok=True)
