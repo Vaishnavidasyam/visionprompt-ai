@@ -152,13 +152,7 @@ This app doesn't have user roles or login system. Anyone who runs it can use all
 
 ---
 
-## Screenshots
-
-*(Add a screenshot of the web interface here)*
-
-*(Add a screenshot showing a prediction result here)*
-
----
+ 
 
 ## Future Improvements
 
