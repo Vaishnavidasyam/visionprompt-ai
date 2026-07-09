@@ -80,23 +80,27 @@ def index():
 
 @app.route("/classify", methods=["POST"])
 def classify():
-    prompt = request.form.get("prompt", "").strip()
-    if not prompt:
-        return jsonify({"error": "Prompt is empty."})
+    try:
+        prompt = request.form.get("prompt", "").strip()
+        if not prompt:
+            return jsonify({"error": "Prompt is empty."})
 
-    class_name, img_tensor, img_display, img_path = classify_from_prompt(prompt)
-    if class_name is None or img_display is None:
-        return jsonify({"error": "Could not find any image for this prompt."})
+        class_name, img_tensor, img_display, img_path = classify_from_prompt(prompt)
+        if class_name is None or img_display is None:
+            return jsonify({"error": "Could not find any image for this prompt."})
 
-    file_ext = os.path.splitext(img_path)[1]
-    web_img_name = f"{uuid.uuid4()}{file_ext}"
-    web_img_path = os.path.join(STATIC_IMG_DIR, web_img_name)
-    cv2.imwrite(web_img_path, cv2.cvtColor(img_display, cv2.COLOR_RGB2BGR))
+        file_ext = os.path.splitext(img_path)[1]
+        web_img_name = f"{uuid.uuid4()}{file_ext}"
+        web_img_path = os.path.join(STATIC_IMG_DIR, web_img_name)
+        cv2.imwrite(web_img_path, cv2.cvtColor(img_display, cv2.COLOR_RGB2BGR))
 
-    pred = model.predict(img_tensor)[0]
-    predicted_idx = np.argmax(pred)
-    predicted_label = enc.classes_[predicted_idx]
-    confidence = float(pred[predicted_idx])
+        pred = model.predict(img_tensor)[0]
+        predicted_idx = np.argmax(pred)
+        predicted_label = enc.classes_[predicted_idx]
+        confidence = float(pred[predicted_idx])
+    except Exception as e:
+        import traceback
+        return jsonify({"error": str(e), "traceback": traceback.format_exc()}), 500
 
     web_img_url = f"/static/images/{web_img_name}"
 
