@@ -44,14 +44,17 @@ if os.path.isdir(deer_dir):
     for fname in os.listdir(deer_dir):
         shutil.copy(os.path.join(deer_dir, fname), os.path.join(flower_folder, f"flower_{fname}"))
 
-print("Training lightweight CNN on CIFAR-10 (2 epochs)...")
+print("Training CNN on CIFAR-10 (10 epochs)...")
 x_train_norm = x_train.astype(np.float32) / 255.0
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(32, 32, 3)),
-    tf.keras.layers.Conv2D(32, (3, 3), activation='relu'),
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
     tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.Dropout(0.25),
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(10, activation='softmax')
 ])
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
