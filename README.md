@@ -164,8 +164,11 @@ This app doesn't have user roles or login system. Anyone who runs it can use all
 
 ---
 
+You can try the live application here:
+[![Deploy to Render](https://render.com/images/deploy-to-render.svg)](https://visionprompt-ai.onrender.com)
+
 ## Author
 
 Created by **Vaishnavidasyam**  
-Email: vaishnavi.41469@gmail.com  
+Email: dasyam.vaishnavi12@gmail.com  
 GitHub: [@Vaishnavidasyam](https://github.com/Vaishnavidasyam)
