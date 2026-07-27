@@ -165,7 +165,7 @@ This app doesn't have user roles or login system. Anyone who runs it can use all
 ---
 
 You can try the live application here:
-[![Deploy to Render](https://render.com/images/deploy-to-render.svg)](https://visionprompt-ai.onrender.com)
+[![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-black?style=flat&logo=render)](https://visionprompt-ai.onrender.com)
 
 ## Author
 
